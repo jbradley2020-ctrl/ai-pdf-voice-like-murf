@@ -1,0 +1,18 @@
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:#0b1220;color:#e8eefc;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+.sidebar{background:#0f1830;border-right:1px solid #1b2a55;padding:16px;display:flex;flex-direction:column;gap:12px}
+.brand{font-weight:700;font-size:18px;margin-bottom:4px}
+.file input{display:none}.file span{display:inline-block;border:1px dashed #314066;border-radius:12px;padding:10px;cursor:pointer}
+.group{display:flex;flex-direction:column;gap:6px}
+select,input,textarea,button{background:#0c1426;color:#e8eefc;border:1px solid #23335f;border-radius:10px;padding:10px}
+textarea{min-height:90px;resize:vertical}
+button{cursor:pointer}.help{font-size:12px;color:#bfc9e5}.help code{background:#091023;border-radius:6px;padding:1px 4px}
+footer{margin-top:auto;font-size:11px;color:#9fb0d8}
+.main{display:flex;flex-direction:column}
+.toolbar{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid #1b2a55;background:#0e1630}
+.pages{padding:16px;display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));align-content:start}
+.card{background:#101a34;border:1px solid #1b2a55;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:12px;display:flex;flex-direction:column;gap:8px}
+.card h3{margin:0;font-size:14px;color:#cfe0ff}
+.card textarea{min-height:220px}
+.badge{display:inline-block;font-size:12px;background:#172449;border:1px solid #28428a;border-radius:8px;padding:2px 6px;margin-left:6px}
+.row{display:flex;gap:8px;flex-wrap:wrap}

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>AI PDF → Voice (Murf‑style)</title>
+  <link rel="stylesheet" href="./styles.css"/>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.5.136/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script defer src="./script.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">AI PDF → Voice</div>
+      <label class="file">
+        <input id="pdfFile" type="file" accept=".pdf"/>
+        <span>Select PDF</span>
+      </label>
+
+      <div class="group">
+        <label>Voice</label>
+        <select id="voice">
+          <option value="alloy" selected>Alloy (neutral)</option>
+          <option value="verse">Verse (narrative)</option>
+          <option value="sage">Sage (calm)</option>
+          <option value="bright">Bright (lively)</option>
+        </select>
+      </div>
+
+      <div class="group">
+        <label>Model</label>
+        <select id="model">
+          <option value="tts-1-hd" selected>tts-1-hd (quality)</option>
+          <option value="tts-1">tts-1 (fast)</option>
+        </select>
+      </div>
+
+      <div class="group">
+        <label>Chunk size (chars)</label>
+        <input id="chunk" type="number" min="500" max="6000" value="3000"/>
+      </div>
+
+      <div class="group">
+        <label>Pronunciations (word → replace)</label>
+        <textarea id="pronDict" placeholder='JSON, e.g. {"Halifax":"Hali-fax"}'></textarea>
+      </div>
+
+      <div class="group">
+        <button id="extractBtn" disabled>Extract Text</button>
+        <button id="renderBtn" disabled>Create Audio</button>
+        <button id="downloadZipBtn" disabled>Download ZIP</button>
+      </div>
+
+      <div class="help">
+        <h4>Markup</h4>
+        <ul>
+          <li><code>[pause=500]</code> inserts a ~½s pause</li>
+          <li><code>*emphasis*</code> adds emphasis (simulated)</li>
+          <li><code>--</code> acts like a short pause</li>
+        </ul>
+      </div>
+
+      <footer>Set <code>OPENAI_API_KEY</code> in Netlify → Site settings → Build & deploy → Environment → Environment variables.</footer>
+    </aside>
+
+    <main class="main">
+      <header class="toolbar">
+        <div id="docName">No PDF loaded</div>
+        <div id="status">Idle</div>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+ </header>
+
+      <section class="pages" id="pages"></section>
+    </main>
+  </div>
+</body>
+</html>
