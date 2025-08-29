@@ -1,34 +1,40 @@
-export default async (request) => {
+exports.handler = async (event) => {
   try {
-    if (request.method !== 'POST') {
-      return new Response('Method not allowed', { status: 405 });
+    const { text, voice = "Rachel" } = JSON.parse(event.body || "{}");
+
+    if (!process.env.ELEVENLABS_API_KEY) {
+      return { statusCode: 500, body: "Missing ELEVENLABS_API_KEY" };
     }
-    const { input, voice = 'alloy', model = 'tts-1-hd' } = await request.json();
-    if (!input || typeof input !== 'string') {
-      return new Response('Missing "input"', { status: 400 });
-    }
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      return new Response('OPENAI_API_KEY not configured', { status: 500 });
-    }
-    const resp = await fetch('https://api.openai.com/v1/audio/speech', {
-      method: 'POST',
+
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}`, {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+        "xi-api-key": process.env.ELEVENLABS_API_KEY,
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({ model, voice, input })
+      body: JSON.stringify({
+        text: text,
+        voice_settings: {
+          stability: 0.5,
+          similarity_boost: 0.5
+        }
+      })
     });
-    if (!resp.ok) {
-      const text = await resp.text();
-      return new Response(text, { status: resp.status });
+
+    if (!response.ok) {
+      const err = await response.text();
+      return { statusCode: 500, body: err };
     }
-    const bytes = await resp.arrayBuffer();
-    return new Response(bytes, {
-      status: 200,
-      headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store' }
-    });
-  } catch (e) {
-    return new Response(e.message || 'Unexpected error', { status: 500 });
+
+    const arrayBuffer = await response.arrayBuffer();
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "audio/mpeg" },
+      body: Buffer.from(arrayBuffer).toString("base64"),
+      isBase64Encoded: true
+    };
+
+  } catch (error) {
+    return { statusCode: 500, body: error.toString() };
   }
 };
