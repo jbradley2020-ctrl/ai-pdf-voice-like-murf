@@ -55,16 +55,3 @@ exports.handler = async (event) => {
     return { statusCode: 500, body: error.toString() };
   }
 };
-
-    const arrayBuffer = await response.arrayBuffer();
-    return {
-      statusCode: 200,
-      headers: { "Content-Type": "audio/mpeg" },
-      body: Buffer.from(arrayBuffer).toString("base64"),
-      isBase64Encoded: true
-    };
-
-  } catch (error) {
-    return { statusCode: 500, body: error.toString() };
-
-};
